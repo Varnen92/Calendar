@@ -1,13 +1,11 @@
 let DateTime = luxon.DateTime
 const now = DateTime.now()
 const time = now.toLocaleString(DateTime.DATETIME_FULL)
-var tasks = {};
+let tasks = []
 
 
 // captures current local time and codeify's to readable state
 $("#currentDay").text(time)
-
-
 
 // Dynamically captures hour at current local time
 function hourUpdater() {
@@ -32,29 +30,22 @@ function hourUpdater() {
 }
 
 hourUpdater()
-
+// runs hour updater at setInterval
 var interval = setInterval(hourUpdater, 15000)
 
 
-/* // allows editing of task (requires text before allowing edit *need to fix)
-$(".description").on("click", function () {
-    var text = $(this).text().trim();
+// Captures task created into local storage
 
-    var textInput = $("<textarea>")
-        .val(text);
+$('.saveBtn').click(function() {
+    var taskText = $(this).prev().val();
+    var hour = $(this).prev().attr("id")
 
-    $(this).replaceWith(textInput)
-    textInput.trigger("focus");
+    localStorage.setItem(hour, taskText)
 });
 
-$(".description").on("blur", function () {
-    var text = $(this)
-        .val()
-        .trim();
 
-    var taskC = $("<div>")
-        .addClass("col-10 description")
-        .text(text)
+// Template Literal to check local storage and display tasks
 
-    $(this).replaceWith(taskC)
-}); */
+for (let i=8; i < 20 ; i++){
+    $(`#hour-${i}`).val(localStorage.getItem(`hour-${i}`))
+}
